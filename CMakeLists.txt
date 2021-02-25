@@ -19,22 +19,47 @@ if (NOT QT5_FOUND)
     return()
 endif ()
 
-add_executable(${PROJECT_NAME}
+
+set(${PROJECT_NAME}_HEADERS
         main_window.h
         image_label.h
+        )
+
+set(${PROJECT_NAME}_SOURCES
         main.cpp
         main_window.cpp
         image_label.cpp
+        )
+
+set(${PROJECT_NAME}_RESOURCES
         main_window.ui
         )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets)
-
 if (APPLE)
+
+    # This tells CMake where to find and install the ICON file
+    set(${PROJECT_NAME}_ICON ${CMAKE_CURRENT_SOURCE_DIR}/Resources/icon.icns)
+
+    #Append the new files to the resources file list
+    list(APPEND ${PROJECT_NAME}_RESOURCES ${${PROJECT_NAME}_ICON})
+
+    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${${PROJECT_NAME}_ICON} ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_RESOURCES})
+
+    set_source_files_properties(${${PROJECT_NAME}_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+
     set_target_properties(${PROJECT_NAME} PROPERTIES
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
             MACOSX_BUNDLE TRUE
-            MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Mac/ImageDiff.plist"
+            MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Mac/ImageDiff.plist"
+            MACOSX_BUNDLE_ICON_FILE "icon.icns"
             MACOSX_BUNDLE_GUI_IDENTIFIER "liangliang.nan@gmail.com"
             )
+
+else ()
+
+    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${${PROJECT_NAME}_ICON} ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_RESOURCES})
+
 endif ()
+
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets)
