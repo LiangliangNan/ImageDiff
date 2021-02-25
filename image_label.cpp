@@ -87,6 +87,6 @@ void ImageLabel::mouseDoubleClickEvent(QMouseEvent *event) {
 
 
 void ImageLabel::clear() {
-    setText("Drop image here or double click for file dialog");
+    setText("Drop an image here or double click to open");
 }
 
