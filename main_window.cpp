@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->image_1, &ImageLabel::changed, this, &MainWindow::onImageChanged);
     connect(ui->image_2, &ImageLabel::changed, this, &MainWindow::onImageChanged);
 
-
     auto iml1 = reinterpret_cast<ImageLabel *>(ui->image_1);
     auto iml2 = reinterpret_cast<ImageLabel *>(ui->image_2);
 
