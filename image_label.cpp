@@ -14,7 +14,6 @@ void ImageLabel::updateLabelProperties() {
 ImageLabel::ImageLabel(QWidget *parent) :
         QLabel(parent) {
     setMinimumSize(200, 200);
-    setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
     setAlignment(Qt::AlignCenter);
 

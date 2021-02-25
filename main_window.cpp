@@ -46,8 +46,15 @@ void MainWindow::onImageChanged() {
 
     auto diffImage = QImage(diffImageSize, im1->format());
 
-    bool identicalImages = true;
+    auto mix = [](const QColor& a, const QColor& b, float wb = 0.5f) -> QColor {
+        return QColor(
+            a.red() * (1 - wb) + b.red() * wb,
+            a.green() * (1 - wb) + b.green() * wb,
+            a.blue() * (1 - wb) + b.blue() * wb
+        );
+    };
 
+    bool identicalImages = true;
     for (int x = 0; x < diffImageSize.width(); x++) {
         for (int y = 0; y < diffImageSize.height(); y++) {
             if (im1->width() <= x || im2->width() <= x || im1->height() <= y || im2->height() <= y) {
@@ -60,11 +67,12 @@ void MainWindow::onImageChanged() {
                 float dg = std::abs(ca.green() - cb.green());
                 float db = std::abs(ca.blue() - cb.blue());
                 float diff = sqrt(dr * dr + dg * dg + db * db);
-                if (diff >= 100) {
+                if (diff >= 10) {
                     diffImage.setPixel(x, y, qRgb(255, 0, 0));
                     identicalImages = false;
                 } else {
-                    diffImage.setPixel(x, y, im1->pixel(x, y));
+                    auto c = mix(ca, QColor(255, 255, 255), 0.7f);
+                    diffImage.setPixel(x, y, c.rgb());
                 }
             }
         }
