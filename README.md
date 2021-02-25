@@ -1,7 +1,7 @@
 # ImageDiff
 Show diff between two images.
 
-[![Screenshot](data/screenshot.png)](https://github.com/tobiasberling/ImageDiff/blob/master/Screenshot_large.png)
+[![Screenshot](data/screenshot.png)](https://github.com/LiangliangNan/ImageDiff/blob/main/data/screenshot.png)
 
 ## Usage
 You can drag and drop image files onto the fields or double click to open a file dialog.
