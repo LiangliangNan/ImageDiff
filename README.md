@@ -1,5 +1,5 @@
 # ImageDiff
-Show diff between two images.
+Visualize the differences between two images
 
 [![Screenshot](data/screenshot.jpg)](https://github.com/LiangliangNan/ImageDiff/blob/main/data/screenshot.png)
 
