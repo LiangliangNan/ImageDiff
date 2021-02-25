@@ -51,7 +51,7 @@ void MainWindow::onImageChanged() {
     for (int x = 0; x < diffImageSize.width(); x++) {
         for (int y = 0; y < diffImageSize.height(); y++) {
             if (im1->width() <= x || im2->width() <= x || im1->height() <= y || im2->height() <= y) {
-                diffImage.setPixel(x, y, qRgb(255, 0, 0));
+                diffImage.setPixel(x, y, qRgb(0, 0, 255));
                 identicalImages = false;
             } else {
                 const QColor ca = im1->pixelColor(x, y);
@@ -61,7 +61,7 @@ void MainWindow::onImageChanged() {
                 float db = std::abs(ca.blue() - cb.blue());
                 float diff = sqrt(dr * dr + dg * dg + db * db);
                 if (diff >= 100) {
-                    diffImage.setPixel(x, y, qRgb(0, 255, 0));
+                    diffImage.setPixel(x, y, qRgb(255, 0, 0));
                     identicalImages = false;
                 } else {
                     diffImage.setPixel(x, y, im1->pixel(x, y));
