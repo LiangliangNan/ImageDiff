@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="MyImageLabel" name="image_1">
+     <widget class="ImageLabel" name="image_1">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -26,7 +26,7 @@
      </widget>
     </item>
     <item>
-     <widget class="MyImageLabel" name="image_diff">
+     <widget class="ImageLabel" name="image_diff">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -42,7 +42,7 @@
      </widget>
     </item>
     <item>
-     <widget class="MyImageLabel" name="image_2">
+     <widget class="ImageLabel" name="image_2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -83,9 +83,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>MyImageLabel</class>
+   <class>ImageLabel</class>
    <extends>QLabel</extends>
-   <header>myimagelabel.h</header>
+   <header>ImageLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

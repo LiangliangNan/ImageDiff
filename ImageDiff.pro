@@ -14,10 +14,10 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
-    src/myimagelabel.cpp
+    src/ImageLabel.cpp
 
 HEADERS  += src/mainwindow.h \
-    src/myimagelabel.h
+    src/ImageLabel.h
 
 FORMS    += ui/mainwindow.ui
 

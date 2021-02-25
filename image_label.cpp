@@ -1,4 +1,5 @@
-#include "myimagelabel.h"
+#include "image_label.h"
+
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QImageReader>
@@ -6,14 +7,12 @@
 #include <QPainter>
 #include <QFileDialog>
 
-void MyImageLabel::updateLabelProperties()
-{
-    setAcceptDrops(type == MyImageLabelType::Input);
+void ImageLabel::updateLabelProperties() {
+    setAcceptDrops(type == ImageLabelType::Input);
 }
 
-MyImageLabel::MyImageLabel(QWidget *parent):
-    QLabel(parent)
-{
+ImageLabel::ImageLabel(QWidget *parent) :
+        QLabel(parent) {
     setMinimumSize(200, 200);
     setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
@@ -23,10 +22,8 @@ MyImageLabel::MyImageLabel(QWidget *parent):
     clear();
 }
 
-void MyImageLabel::dragEnterEvent(QDragEnterEvent *event)
-{
-    if (event->mimeData()->hasUrls())
-    {
+void ImageLabel::dragEnterEvent(QDragEnterEvent *event) {
+    if (event->mimeData()->hasUrls()) {
         // One file only
         auto urlList = event->mimeData()->urls();
         if (urlList.size() != 1)
@@ -42,8 +39,7 @@ void MyImageLabel::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void MyImageLabel::loadImage(QString filePath)
-{
+void ImageLabel::loadImage(QString filePath) {
     QImageReader imageReader(filePath);
     imageReader.read(&originalImage);
     updatePixmap();
@@ -51,38 +47,32 @@ void MyImageLabel::loadImage(QString filePath)
     emit changed();
 }
 
-void MyImageLabel::dropEvent(QDropEvent *event)
-{
+void ImageLabel::dropEvent(QDropEvent *event) {
     auto filePath = event->mimeData()->urls()[0].toLocalFile();
 
     loadImage(filePath);
 }
 
 
-void MyImageLabel::updatePixmap()
-{
-    if (!originalImage.isNull())
-    {
+void ImageLabel::updatePixmap() {
+    if (!originalImage.isNull()) {
         auto scaledImage = originalImage.scaled(size(), Qt::KeepAspectRatio);
         auto pixmap = QPixmap::fromImage(scaledImage);
         setPixmap(pixmap);
     }
 }
 
-void MyImageLabel::resizeEvent(QResizeEvent * /*event*/)
-{
+void ImageLabel::resizeEvent(QResizeEvent * /*event*/) {
     updatePixmap();
 }
 
-void MyImageLabel::mouseDoubleClickEvent(QMouseEvent *event)
-{
-    if (type == MyImageLabelType::Output)
+void ImageLabel::mouseDoubleClickEvent(QMouseEvent *event) {
+    if (type == ImageLabelType::Output)
         return;
 
     auto formats = QImageReader::supportedImageFormats();
     QStringList fileExtension;
-    for (auto& format : formats)
-    {
+    for (auto &format : formats) {
         fileExtension.push_back(QString("*.%1").arg(QString(format.toLower())));
     }
     auto fileDialogFilter = QString("Image Files (%1)").arg(fileExtension.join(' '));
@@ -96,8 +86,7 @@ void MyImageLabel::mouseDoubleClickEvent(QMouseEvent *event)
 }
 
 
-void MyImageLabel::clear()
-{
+void ImageLabel::clear() {
     setText("Drop image here or double click for file dialog");
 }
 

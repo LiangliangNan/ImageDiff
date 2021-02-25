@@ -1,28 +1,26 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
+#include "main_window.h"
+#include "ui_main_window.h"
 
 #include <math.h>
 #include <algorithm>
-
 
 #include <QImage>
 #include <QDebug>
 #include <QRgb>
 
+
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
+        QMainWindow(parent),
+        ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    ui->image_diff->setType(MyImageLabelType::Output);
+    ui->image_diff->setType(ImageLabelType::Output);
 
-    connect(ui->image_1, &MyImageLabel::changed, this, &MainWindow::onImageChanged);
-    connect(ui->image_2, &MyImageLabel::changed, this, &MainWindow::onImageChanged);
+    connect(ui->image_1, &ImageLabel::changed, this, &MainWindow::onImageChanged);
+    connect(ui->image_2, &ImageLabel::changed, this, &MainWindow::onImageChanged);
 
 
-    auto iml1 = reinterpret_cast<MyImageLabel*>(ui->image_1);
-    auto iml2 = reinterpret_cast<MyImageLabel*>(ui->image_2);
+    auto iml1 = reinterpret_cast<ImageLabel *>(ui->image_1);
+    auto iml2 = reinterpret_cast<ImageLabel *>(ui->image_2);
 
     if (qApp->arguments().size() > 1)
         iml1->loadImage(qApp->arguments()[1]);
@@ -30,16 +28,14 @@ MainWindow::MainWindow(QWidget *parent) :
         iml2->loadImage(qApp->arguments()[2]);
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::onImageChanged()
-{
-    auto iml1 = reinterpret_cast<MyImageLabel*>(ui->image_1);
-    auto iml2 = reinterpret_cast<MyImageLabel*>(ui->image_2);
-    auto iml_diff = reinterpret_cast<MyImageLabel*>(ui->image_diff);
+void MainWindow::onImageChanged() {
+    auto iml1 = reinterpret_cast<ImageLabel *>(ui->image_1);
+    auto iml2 = reinterpret_cast<ImageLabel *>(ui->image_2);
+    auto iml_diff = reinterpret_cast<ImageLabel *>(ui->image_diff);
 
     auto im1 = iml1->getOriginalImage();
     auto im2 = iml2->getOriginalImage();
@@ -53,45 +49,34 @@ void MainWindow::onImageChanged()
 
     bool identicalImages = true;
 
-    for (int x = 0; x < diffImageSize.width(); x++)
-    {
-        for (int y = 0; y < diffImageSize.height(); y++)
-        {
-            if (im1->width() <= x || im2->width() <= x || im1->height() <= y || im2->height() <= y)
-            {
+    for (int x = 0; x < diffImageSize.width(); x++) {
+        for (int y = 0; y < diffImageSize.height(); y++) {
+            if (im1->width() <= x || im2->width() <= x || im1->height() <= y || im2->height() <= y) {
                 diffImage.setPixel(x, y, qRgb(255, 0, 0));
                 identicalImages = false;
-            }
-            else {
+            } else {
                 const QColor ca = im1->pixelColor(x, y);
                 const QColor cb = im2->pixelColor(x, y);
                 float dr = std::abs(ca.red() - cb.red());
                 float dg = std::abs(ca.green() - cb.green());
                 float db = std::abs(ca.blue() - cb.blue());
                 float diff = sqrt(dr * dr + dg * dg + db * db);
-                if (diff >= 100)
-                {
+                if (diff >= 100) {
                     diffImage.setPixel(x, y, qRgb(0, 255, 0));
                     identicalImages = false;
-                }
-                else
-                {
+                } else {
                     diffImage.setPixel(x, y, im1->pixel(x, y));
                 }
             }
         }
     }
-    if (identicalImages)
-    {
+    if (identicalImages) {
         ui->image_diff->setText("Images are identical");
-    }
-    else
-    {
+    } else {
         iml_diff->setOriginalImage(diffImage);
     }
 }
 
-void MainWindow::on_actionExit_triggered()
-{
+void MainWindow::on_actionExit_triggered() {
     qApp->exit();
 }
