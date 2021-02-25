@@ -67,7 +67,7 @@ void MainWindow::onImageChanged() {
                 float dg = std::abs(ca.green() - cb.green());
                 float db = std::abs(ca.blue() - cb.blue());
                 float diff = sqrt(dr * dr + dg * dg + db * db);
-                if (diff >= 10) {
+                if (diff >= 100) {
                     diffImage.setPixel(x, y, qRgb(255, 0, 0));
                     identicalImages = false;
                 } else {
